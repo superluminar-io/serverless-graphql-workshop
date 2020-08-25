@@ -75,3 +75,46 @@ Cool, we created the first mutation in the API and connected it with the databas
   ![AWS AppSync Console Queries Mutation Response](/_media/lab1/mutation-response.png)
 4. The first article got stored in the DynamoDB database. We can now go to [DynamoDB console](https://console.aws.amazon.com/dynamodb) and check the new entity. Ideally you see this:
   ![AWS DynamoDB Articles Database](/_media/lab1/dynamodb-article.png)
+
+That's already pretty cool, but so far we can't retrieve articles in our API. Let's change this!
+
+## Query to retrieve articles
+
+1. Go back to the [AppSync console](console.aws.amazon.com/appsync), select the API and click on **Schema**
+2. Replace the `Query` type by the following type:
+  ```graphql
+  type Query {
+	  article(id: ID!): Article
+  }
+  ```
+3. Click on **Save schema**
+4. On the right side, scroll down to the `article(...): Article` query and click on **Attach**
+5. For the data source, select **articles**
+6. Replace the request mapping template:
+    ```velocity
+    {
+        "version": "2017-02-28",
+        "operation": "GetItem",
+        "key": {
+            "id": $util.dynamodb.toDynamoDBJson($ctx.args.id),
+        }
+    }
+    ```
+7. And the response mapping template:
+    ```velocity
+    $util.toJson($ctx.result)
+    ```
+8. Click on **Save resolver**
+9. In the sidebar, click on **Queries**
+10. Find out the ID of the article we just created (e.g. in the [DynamoDB console](https://console.aws.amazon.com/dynamodb)). After that, run the following query:
+    ```graphql
+    query {
+      article(id: "<< YOUR ARTICLE ID >>") {
+        id
+        title
+        content
+        createdAt
+      }
+    } 
+    ```
+11. Tada, we can retrieve the article now in the GraphQL API!
