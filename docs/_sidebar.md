@@ -1,1 +1,2 @@
-- [Prerequisites](/)
+- [Welcome](/)
+- [Lab 0 - Setup](/lab0)
