@@ -1,2 +1,3 @@
 - [Welcome](/)
 - [Lab 0 - Setup](/lab0)
+- [Lab 1 - GraphQL API](/lab1)
