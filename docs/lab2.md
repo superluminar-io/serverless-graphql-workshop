@@ -115,4 +115,78 @@ This integration is already very cool. With the pipeline, we are able to communi
 
 We are going to write a simple Lambda function to validate the comment.
 
-1. …
+1. Go to the [Lambda console](aws.amazon.com/lambda)
+2. Click on **Create function**
+3. Use **hasBadEmojis** for **Function name**
+4. Click on **Create function**
+5. On the next page, scroll down a bit to the **Function code** section. Replace the code:
+    ```javascript
+    exports.handler = async ({ content }) => {
+        const badEmojis = ['🖕', '💩'];
+        
+        let hasBadEmojis = false;
+        badEmojis.forEach(badEmoji => {
+            if (content.indexOf(badEmoji) !== -1) {
+                hasBadEmojis = true;
+            }
+        })
+        
+        return { hasBadEmojis }
+    };
+    ```
+6. Scroll up and click on **Save**
+7. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
+8. Click on **Data Sources**
+9. Click on **Create data sources**
+10. For data source, use **hasBadEmojis**
+11. Select **AWS Lambda function** as **Data source type**
+12. Choose the region you are currently using
+13. For the function ARN, select the function including **hasBadEmojis**
+14. Click on **Create**
+15. In the sidebar, click on **Functions**
+16. Click on **Create function**
+17. Select **hasBadEmojis** for **Data source name**
+18. Use **hasBadEmojis** as the function name
+19. Replace the request mapping template:
+    ```velocity
+    {
+        "operation": "Invoke",
+        "payload": {
+            "content": $util.toJson(${ctx.stash.content})
+        }
+    }
+    ```
+20. And the response mapping template:
+    ```velocity
+    #if($context.result.hasBadEmojis)
+        $util.error("Content includes bad emojis :(")
+    #end
+    {}
+    ```
+21. Click on **Create function**
+22. In the sidebar, click on **Schema**
+23. In the list of resolvers, scroll down to `commentCreate(...): Comment!` and click on **Pipeline**
+24. Click on **Add function** and select **hasBadEmojis**
+25. Select the **hasBadEmojis** card
+26. Click on **Move up** so the **hasBadEmojis** card is above the **storeComment** card
+27. Scroll up and click on **Save resolver**
+
+Cool, that's it! Time to play around with the mutation. Go back to the **Queries** explorer and run the following mutations:
+
+```graphql
+mutation {
+  commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
+    id
+  }
+}
+```
+
+```graphql
+mutation {
+  commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "Not cool! 🖕") {
+    id
+  }
+}
+```
+
+What do you get from the API?
