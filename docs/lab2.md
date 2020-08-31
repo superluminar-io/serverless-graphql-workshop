@@ -12,7 +12,7 @@ We want to build a pipeline for the `commentCreate` mutation to do validation be
 
 ## AppSync function
 
-We create a function to store a comment. This is more or less the request/response mapping we already use for the `commentCreate` mutation.
+We create a function to store a comment. This is more or less the request/response mapping we already used for the `commentCreate` mutation.
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 2. In the sidebar, click on **Functions**
