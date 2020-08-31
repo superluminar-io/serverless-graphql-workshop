@@ -118,7 +118,7 @@ This integration is already very cool. With the pipeline, we are able to communi
 
 We are going to write a simple Lambda function to validate the comment.
 
-1. Go to the [Lambda console](aws.amazon.com/lambda)
+1. Go to the [Lambda console](https://console.aws.amazon.com/lambda)
 2. Click on **Create function**
 3. In the **Basic information** section, use **hasBadEmojis** for **Function name**
 4. Keep everything else untouched and click on **Create function**
