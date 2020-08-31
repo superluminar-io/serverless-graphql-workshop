@@ -42,7 +42,7 @@ In order to use the DynamoDB databases as resources in the GraphQL API, we need 
 4. Select **Amazon DynamoDB table** as the source type
 5. For the region, select the one you are using right now (e.g. EU-CENTRAL-1)
 6. In the next dropdown, you should see the databases we just created. Select **articles**.
-7. Scroll down and click on **Create**
+7. Keep everything else untouched and click on **Create**
 
 We now connected the **articles** database with the GraphQL API. We have to do the exact same steps for the **comments** database:
 
@@ -51,6 +51,6 @@ We now connected the **articles** database with the GraphQL API. We have to do t
 3. Select **Amazon DynamoDB table** as the source type
 4. For the region, select the one you are using right now (e.g. EU-CENTRAL-1)
 5. In the next dropdown, you should see the databases we just created. Select **comments**.
-6. Scroll down and click on **Create**
+6. Keep everything else untouched and click on **Create**
 
 Everything is prepared to write the first bit of the GraphQL API.

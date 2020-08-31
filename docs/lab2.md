@@ -12,7 +12,7 @@ We want to build a pipeline for the `commentCreate` mutation to do validation be
 
 ## AppSync function
 
-We create a function to store a comment. This is more or less the request/response mapping we already use for the `commentCreate` mutation.
+We create a function to store a comment. This is more or less the request/response mapping we already used for the `commentCreate` mutation.
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 2. In the sidebar, click on **Functions**
@@ -49,7 +49,8 @@ In the next step, we are going to introduce a pipeline for the `commentCreate` m
 3. In the list of resolvers, scroll down to `commentCreate(...): Comment!`. Click on **comments**
 4. Click on **Delete resolver**
 5. Again, In the list of resolvers, scroll down to `commentCreate(...): Comment!`. Click on **Attach**
-6. In the **Resolver for Mutation.commentCreate** section, click on **Convert to pipeline resolver**
+6. In the **Resolver for Mutation.commentCreate** section, click on **Convert to pipeline resolver**:
+  ![AWS AppSync Convert To Pipeline](/_media/lab2/convert.png)
 7. Now, in the **Functions** section, click on **Add function** and select **storeComment**
 8. Open **Before mapping template** and replace it with:
     ```velocity
@@ -67,6 +68,8 @@ In the next step, we are going to introduce a pipeline for the `commentCreate` m
       }
     }
     ```
+
+Great, we refactored the `commentCreate` mutation to use a pipeline. So far, the mutation does exactly the same, but we have prepared everything for valiation. Let's go to the next step!
 
 ## Article ID validation
 
@@ -117,8 +120,8 @@ We are going to write a simple Lambda function to validate the comment.
 
 1. Go to the [Lambda console](aws.amazon.com/lambda)
 2. Click on **Create function**
-3. Use **hasBadEmojis** for **Function name**
-4. Click on **Create function**
+3. In the **Basic information** section, use **hasBadEmojis** for **Function name**
+4. Keep everything else untouched and click on **Create function**
 5. On the next page, scroll down a bit to the **Function code** section. Replace the code:
     ```javascript
     exports.handler = async ({ content }) => {

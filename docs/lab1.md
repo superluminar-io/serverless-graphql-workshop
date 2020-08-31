@@ -13,7 +13,7 @@ The first mutation we are going to introduce gives us the ability to create new 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 2. In the sidebar, click on **Schema**. You should see this screen:
     ![AWS AppSync Console Schema](/_media/lab1/schema.png)
-3. Replace the schema by the following schema:
+3. Replace the schema with the following schema:
     ```graphql
     type Article {
       id: ID!
