@@ -49,7 +49,8 @@ In the next step, we are going to introduce a pipeline for the `commentCreate` m
 3. In the list of resolvers, scroll down to `commentCreate(...): Comment!`. Click on **comments**
 4. Click on **Delete resolver**
 5. Again, In the list of resolvers, scroll down to `commentCreate(...): Comment!`. Click on **Attach**
-6. In the **Resolver for Mutation.commentCreate** section, click on **Convert to pipeline resolver**
+6. In the **Resolver for Mutation.commentCreate** section, click on **Convert to pipeline resolver**:
+  ![AWS AppSync Convert To Pipeline](/_media/lab2/convert.png)
 7. Now, in the **Functions** section, click on **Add function** and select **storeComment**
 8. Open **Before mapping template** and replace it with:
     ```velocity
