@@ -68,6 +68,8 @@ In the next step, we are going to introduce a pipeline for the `commentCreate` m
     }
     ```
 
+Great, we refactored the `commentCreate` mutation to use a pipeline. So far, the mutation does exactly the same, but we have prepared everything for valiation. Let's go to the next step!
+
 ## Article ID validation
 
 With the pipeline in place, we can actually do cool stuff and validate the mutation. In the first step, we would like to check if the provided article ID exists.
