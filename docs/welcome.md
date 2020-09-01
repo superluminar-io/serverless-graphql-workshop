@@ -24,6 +24,10 @@ In this workshop, we are going to build a simple GraphQL API for a blog. The API
 
 ![Architecture](/_media/welcome/architecture.png)
 
+* Lamnda function for input validation
+* Two databases to store **articles** and **comments**
+* [VTL](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html) for resolvers to keep it as functionless as possible
+
 ## Prerequisites
 
 To get started with the workshop you need to have Administrator Access to an AWS Account. Please do not use the accounts root user since this is bad practice and leads to potential security risks.
