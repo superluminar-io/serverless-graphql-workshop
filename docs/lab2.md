@@ -6,9 +6,17 @@
 * Create an AppSync pipeline
 * Use a Lambda function in AppSync
 
-## Architecture
+## Overview
 
-We want to build a pipeline for the `commentCreate` mutation to do validation before we actually store the comment. At first, we want to check if the provided article ID exists and then check the content for bad emojis we don't want to support. If the comment is valid, we want to store it.
+The `commentCreate` mutation should become smarter and validate the input. Therefore, we are going to refactor the mutation and introduce an AppSync pipeline. The pipeline essentially calls AppSync functions sequentially to …
+
+1. Check if the provided article ID even exists (otherwise it doesn't make sense to submit a comment)
+2. Check if the content includes bad emojis
+3. Store the comment
+
+![Pipeline Architecture](/_media/lab2/architecture.png)
+
+The interesting part here is how we can wire up different data sources: The pipeline uses a functionless approach for trivial operations (such as storing a comment) and combines it with a Lambda function for more complex operations. That way we can keep the resources we need to maintain to a minimum while not losing the capability of a programing language. 
 
 ## AppSync function
 
