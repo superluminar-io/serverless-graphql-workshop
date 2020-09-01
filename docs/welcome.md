@@ -18,6 +18,12 @@
 * Infrastructure as Code
 * Authentication / Authorization
 
+## What are we going to build?
+
+In this workshop, we are going to build a simple GraphQL API for a blog. The API provides mutations to create new articles and comments plus a query to retrieve specific articles and the comments attached to them. From a technical standpoint, we are going to use [AppSync](https://aws.amazon.com/appsync/) in combination with [Lambda](https://aws.amazon.com/lambda/) and [DynamoDB](https://aws.amazon.com/dynamodb/).
+
+![Architecture](/_media/welcome/architecture.png)
+
 ## Prerequisites
 
 To get started with the workshop you need to have Administrator Access to an AWS Account. Please do not use the accounts root user since this is bad practice and leads to potential security risks.
