@@ -4,3 +4,4 @@
 - [Lab 2 - Pipeline](/lab2)
 - [Lab 5 - Caching](/lab5)
 - [Lab 6 - Pagination](/lab6)
+- [FAQ](/faq)
