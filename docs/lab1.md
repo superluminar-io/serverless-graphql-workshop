@@ -23,7 +23,7 @@ The first mutation we are going to introduce gives us the ability to create new 
     }
 
     type Mutation {
-      articleCreate(title: String!, content: String!): Article!
+      createArticle(title: String!, content: String!): Article!
     }
 
     type Query {
@@ -36,7 +36,7 @@ The first mutation we are going to introduce gives us the ability to create new 
     }
     ```
 4. Click on **Save schema**
-5. On the right side, you should see all the types and fields we just defined in the schema. Scroll down a bit and find the `articleCreate` mutation. Click on the **Atach** button next to the mutation:
+5. On the right side, you should see all the types and fields we just defined in the schema. Scroll down a bit and find the `createArticle` mutation. Click on the **Atach** button next to the mutation:
     ![AWS AppSync Console Attach Resolver](/_media/lab1/attach.png)
 6. Select **articles** as the Data source name
 7. Replace the request mapping template:
@@ -63,7 +63,7 @@ Cool, we created the first mutation in the API and connected it with the DynamoD
 2. Paste the following requests in the textarea:
     ```graphql
     mutation {
-      articleCreate(title: "Serverless GraphQL API with AppSync and DynamoDB", content: "In the last years, GraphQL has become very popular for frontend to backend communication in the tech industry. GraphQL makes it easy to control all the data you need and thanks to the typed schema GraphQL has great tooling for caching, testing, or orchestrating a microservice architecture. This workshop provides an outlook on the future of API development with Amazon Web Services. With just the AWS console and a small portion of code, we are able to create a serverless and scalable GraphQL API in minutes. If you love to play around with bleeding-edge technologies and want to get your hands dirty in a hands-on session - this workshop is the right one for you!") {
+      createArticle(title: "Serverless GraphQL API with AppSync and DynamoDB", content: "In the last years, GraphQL has become very popular for frontend to backend communication in the tech industry. GraphQL makes it easy to control all the data you need and thanks to the typed schema GraphQL has great tooling for caching, testing, or orchestrating a microservice architecture. This workshop provides an outlook on the future of API development with Amazon Web Services. With just the AWS console and a small portion of code, we are able to create a serverless and scalable GraphQL API in minutes. If you love to play around with bleeding-edge technologies and want to get your hands dirty in a hands-on session - this workshop is the right one for you!") {
         id
         createdAt
         title
@@ -124,9 +124,8 @@ That's already pretty cool, but so far we can't retrieve articles in our API. Le
 This section is very similar to what we have done for the articles. Now we want to create a mutation to store comments.
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
-2. In the sidebar, click on **Schema**. You should see this screen:
-    ![AWS AppSync Console Schema](/_media/lab1/schema.png)
-3. Add the new type `Comment` and extend the `Mutation` type to support `commentCreate`: 
+2. In the sidebar, click on **Schema**.
+3. Add the new type `Comment` and extend the `Mutation` type to support `createComment`: 
     ```graphql
     type Comment {
       id: ID!
@@ -135,12 +134,12 @@ This section is very similar to what we have done for the articles. Now we want 
     }
 
     type Mutation {
-      articleCreate(title: String!, content: String!): Article!
-      commentCreate(articleId: ID!, content: String!): Comment!
+      createArticle(title: String!, content: String!): Article!
+      createComment(articleId: ID!, content: String!): Comment!
     }
     ```
 4. Click on **Save schema**
-5. On the right side, scroll down to the mutation `commentCreate(...): Comment!` and click on **Attach**
+5. On the right side, scroll down to the mutation `createComment(...): Comment!` and click on **Attach**
 6. For the data source, select **comments**
 7. Replace the request mapping template:
     ```velocity
@@ -166,7 +165,7 @@ This section is very similar to what we have done for the articles. Now we want 
 11. Run the following mutation:
     ```graphql
     mutation {
-      commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "Awesome!") {
+      createComment(articleId: "<< YOUR ARTICLE ID >>", content: "Awesome!") {
         id
         createdAt
         content

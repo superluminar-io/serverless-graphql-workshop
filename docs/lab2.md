@@ -8,7 +8,7 @@
 
 ## Overview
 
-The `commentCreate` mutation should become smarter and validate the input. Therefore, we are going to refactor the mutation and introduce an AppSync pipeline. The pipeline essentially calls AppSync functions sequentially to …
+The `createComment` mutation should become smarter and validate the input. Therefore, we are going to refactor the mutation and introduce an AppSync pipeline. The pipeline essentially calls AppSync functions sequentially to …
 
 1. Check if the provided article ID even exists (otherwise it doesn't make sense to submit a comment)
 2. Check if the content includes bad emojis
@@ -20,7 +20,7 @@ The interesting part here is how we can wire up different data sources: The pipe
 
 ## AppSync function
 
-We create a function to store a comment. This is more or less the request/response mapping we already used for the `commentCreate` mutation.
+We create a function to store a comment. This is more or less the request/response mapping we already used for the `createComment` mutation.
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 2. In the sidebar, click on **Functions**
@@ -48,16 +48,16 @@ We create a function to store a comment. This is more or less the request/respon
     ```
 8. Click on **Create function**
 
-In the next step, we are going to introduce a pipeline for the `commentCreate` mutation and use the function we just created.
+In the next step, we are going to introduce a pipeline for the `createComment` mutation and use the function we just created.
 
 ## Mutation refactoring
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 2. In the sidebar, click on **Schema**
-3. In the list of resolvers, scroll down to `commentCreate(...): Comment!`. Click on **comments**
+3. In the list of resolvers, scroll down to `createComment(...): Comment!`. Click on **comments**
 4. Click on **Delete resolver**
-5. Again, In the list of resolvers, scroll down to `commentCreate(...): Comment!`. Click on **Attach**
-6. In the **Resolver for Mutation.commentCreate** section, click on **Convert to pipeline resolver**:
+5. Again, In the list of resolvers, scroll down to `createComment(...): Comment!`. Click on **Attach**
+6. In the **Resolver for Mutation.createComment** section, click on **Convert to pipeline resolver**:
   ![AWS AppSync Convert To Pipeline](/_media/lab2/convert.png)
 7. Now, in the **Functions** section, click on **Add function** and select **storeComment**
 8. Open **Before mapping template** and replace it with:
@@ -71,13 +71,13 @@ In the next step, we are going to introduce a pipeline for the `commentCreate` m
 10. In the sidebar, click on **Queries** and run this mutation:
     ```graphql
     mutation {
-      commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
+      createComment(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
         id
       }
     }
     ```
 
-Great, we refactored the `commentCreate` mutation to use a pipeline. So far, the mutation does exactly the same, but we have prepared everything for valiation. Let's go to the next step!
+Great, we refactored the `createComment` mutation to use a pipeline. So far, the mutation does exactly the same, but we have prepared everything for valiation. Let's go to the next step!
 
 ## Article ID validation
 
@@ -106,14 +106,14 @@ With the pipeline in place, we can actually do cool stuff and validate the mutat
   {}
   ```
 8. Click on **Create function**
-9. In the sidebar, click on **Schema**. In the list of resolvers, scroll down to **commentCreate(...): Comment!** and click on **Pipeline**.
+9. In the sidebar, click on **Schema**. In the list of resolvers, scroll down to **createComment(...): Comment!** and click on **Pipeline**.
 10. Click on **Add function** and select **isValidArticleId**
 11. Select the **isValidArticleId** card and click on **Move up**. The **isValidArticleId** function should be now above the **storeComment** function.
 12. Click on **Save resolver**
 13. In the sidebar, click on **Queries** and run the following mutation again:
     ```graphql
     mutation {
-      commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
+      createComment(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
         id
       }
     }
@@ -176,7 +176,7 @@ We are going to write a simple Lambda function to validate the comment.
     ```
 21. Click on **Create function**
 22. In the sidebar, click on **Schema**
-23. In the list of resolvers, scroll down to `commentCreate(...): Comment!` and click on **Pipeline**
+23. In the list of resolvers, scroll down to `createComment(...): Comment!` and click on **Pipeline**
 24. Click on **Add function** and select **hasBadEmojis**
 25. Select the **hasBadEmojis** card
 26. Click on **Move up** so the **hasBadEmojis** card is above the **storeComment** card
@@ -186,7 +186,7 @@ Cool, that's it! Time to play around with the mutation. Go back to the **Queries
 
 ```graphql
 mutation {
-  commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
+  createComment(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
     id
   }
 }
@@ -194,7 +194,7 @@ mutation {
 
 ```graphql
 mutation {
-  commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "Not cool! 🖕") {
+  createComment(articleId: "<< YOUR ARTICLE ID >>", content: "Not cool! 🖕") {
     id
   }
 }
