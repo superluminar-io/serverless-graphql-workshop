@@ -39,7 +39,7 @@ Perfect, we enabled caching for the API and configured the comments resolver to 
 3. We should see a list of comments, let's create a new comment for this article:
     ```graphql
     mutation {
-      commentCreate(articleId: "<< YOUR ARTICLE ID >>", content: "Is it cached?") {
+      createComment(articleId: "<< YOUR ARTICLE ID >>", content: "Is it cached?") {
         id
       }
     }
