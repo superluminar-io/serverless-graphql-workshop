@@ -64,7 +64,15 @@ Logging for your API is disable by default. To enable it, do the following:
 1. Under **Logging**, click the toggle to Enable Logs.
 1. When the console prompts you, provide or create a CloudWatch ARN role.
 1. Enable **Include verbose content** to activate [Request Level Logs](https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl).
-1. Let the **Field resolver log level** set to **None** for now.
+1. Set the **Field resolver log level** to **All**.
 1. **Save** your changes.
 
 Now we need to make some queries, in order get log output. After that, we hopefully find some logs in CloudWatch Logs.
+
+## Cloudwatch Logs Insights
+
+Cloudwatch Logs Insights has some neat examples for querying interesting data about your API and resolvers:
+
+1. Goto [CloudWatch Logs Insights console](https://eu-central-1.console.aws.amazon.com/cloudwatch/home?region=eu-central-1#logsV2:logs-insights).
+1. Click on **Queries** on the left side.
+1. Open the **AWS AppSync** sample queries and execute them. 
