@@ -2,6 +2,7 @@
 - [Lab 0 - Setup](/lab0)
 - [Lab 1 - GraphQL API](/lab1)
 - [Lab 2 - Pipeline](/lab2)
+- [Lab 3 - Monitoring](/lab3)
 - [Lab 5 - Caching](/lab5)
 - [Lab 6 - Pagination](/lab6)
 - [FAQ](/faq)
