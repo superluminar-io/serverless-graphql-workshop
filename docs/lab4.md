@@ -2,14 +2,9 @@
 
 ## In this lab …
 
-* Enable tracing for the API
-* Understanding X-Ray
-
-## Overview
-
-- 1
-- 2
-- 3
+* Enable tracing for your AppSync API
+* Understand X-Ray
+* Use Cloudwatch ServiceLens
 
 ## Tracing
 
@@ -25,7 +20,7 @@ Tracing via X-Ray is not enable by default. So let's do this real quick:
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 1. Go to the setting in menu on the left
-1. Scroll down until you find the setting to **Enable x-Ray**
+1. Scroll down until you find the setting to **Enable X-Ray**
 1. Click on **Save**
 
 Now we need to generate some traces. So use the different actions of the API. 
@@ -51,9 +46,9 @@ Let's take a closer look at a single trace:
 
 ## Cloudwatch ServiceLens
 
-AWS has another way to look at the same tracing data. Cloudwatch ServiceLens. 
+AWS has another tool to present the same tracing data: Cloudwatch ServiceLens. 
 It combines data from X-Ray, Cloudwatch Metrics and Cloudwatch Logs in one UI.
 
 1. Open the [ServiceLens console](https://console.aws.amazon.com/cloudwatch/home?region=eu-central-1#servicelens:)
 1. Find your **Service Map** and the **Traces**
-1. Try to find the traces we looked at earlier and compare the different presentations
+1. Try to find the traces we looked at earlier and compare the different presentations  

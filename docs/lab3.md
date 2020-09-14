@@ -1,16 +1,10 @@
-# Lab 3 - Monitoring + Alerting
+# Lab 3 - Monitoring / Logging
 
 ## In this lab …
 
 * Check out basic metrics provided by AWS
 * Create Alarms based on these metrics
-* Learn how notifications work
-
-## Overview
-
-- Why monitoring and alerting?
-- What to monitor?
-- Notifications
+* Activate Logging for your AppSync API
 
 ## Monitoring + Alerting
 
@@ -61,3 +55,16 @@ Let's have a look, what was created in background.
 1. Find the topic you create earlier and click on the name
 1. Go to subscription and check the subscription status for your email address
 
+## Activate Logging
+
+Logging for your API is disable by default. To enable it, do the following:
+
+1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API.
+1. Choose **Settings** from the navigation panel.
+1. Under **Logging**, click the toggle to Enable Logs.
+1. When the console prompts you, provide or create a CloudWatch ARN role.
+1. Enable **Include verbose content** to activate [Request Level Logs](https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl).
+1. Let the **Field resolver log level** set to **None** for now.
+1. **Save** your changes.
+
+Now we need to make some queries, in order get log output. After that, we hopefully find some logs in CloudWatch Logs.
