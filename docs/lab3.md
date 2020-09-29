@@ -89,7 +89,7 @@ Logging for your API is disable by default. To enable it, do the following:
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API.
 1. Choose **Settings** from the navigation panel.
 1. Under **Logging**, click the toggle to Enable Logs.
-1. When the console prompts you, provide or create a CloudWatch ARN role.
+1. Create a IAM role for writing logs.
 1. Enable **Include verbose content** to activate [Request Level Logs](https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl).
 1. Set the **Field resolver log level** to **All**.
 1. **Save** your changes.
