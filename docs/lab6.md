@@ -36,22 +36,16 @@
             "expressionValues" : {
                 ":articleId" : $util.dynamodb.toDynamoDBJson($ctx.source.id)
             }
-        }
-        #if($ctx.args.limit)
-            ,"limit": $util.toJson($ctx.args.limit)
-        #end
-        #if($ctx.args.nextToken)
-            ,"nextToken": $util.toJson($ctx.args.nextToken)
-        #end
+        },
+        "limit": $util.defaultIfNull(${ctx.args.limit}, 20),
+        "nextToken": $util.toJson($util.defaultIfNullOrBlank($ctx.args.nextToken, null))
     }
     ```
 7. And the response mapping template:
     ```velocity
     {
-        "nodes": $utils.toJson($ctx.result.items)
-        #if($ctx.result.nextToken)
-            ,"nextToken": $util.toJson($ctx.result.nextToken)
-        #end
+        "nodes": $util.toJson($ctx.result.items),
+        "nextToken": $util.toJson($util.defaultIfNullOrBlank($context.result.nextToken, null))
     }
     ```
 8. Click on **Save resolver**
