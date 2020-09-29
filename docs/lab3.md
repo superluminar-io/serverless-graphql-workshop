@@ -22,24 +22,24 @@ Nonetheless, there are still things that could go wrong:
 Most AWS services generates some useful metrics on their own. AppSync is a bit restrained in this regard, but let's take a look:
 
 1. Go to the [Cloudwatch console](https://console.aws.amazon.com/cloudwatch)
-1. In the navigation click in **Metrics**
-1. Select the metrics for **AppSync** and the filter **API Metrics**
-1. Here we can see a list of all available metrics for all your APIs 
+1. Navigate to **Metrics**
+1. Select **AppSync** in the list of metrics and filter for **API Metrics**
+1. Here we can see a list of all available metrics for all our APIs
 (check out [the docs](https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html) for details)
 
 
 Now we are going to create an alarm. It should be triggered if the latency of our API gets bad.
 
-1. Select the **Latency** metric for out API
+1. Select the **Latency** metric
 1. Click on the **Graphed metrics** tab
-1. Find the little bell icon 🔔 on right side and click it to create an alarm from this metric
+1. Find the little bell icon 🔔 on right side and click it to create an alarm for this metric
 ![Create an Alarm](./_media/lab3/alarm_1.png)
-1. Use the **Average** statistic and set the **Period** to 5 minute
+1. Use the **Average** statistic and set the **Period** to 5 minutes
 1. Configure your alarm to get triggered when the latency is above 500ms
 1. Click on **Next**
 ![Create an Alarm](./_media/lab3/alarm_2.png)
 ![Create an Alarm](./_media/lab3/alarm_3.png) 
-1. Configure a SNS Topic to receive email notifications for the alarm 
+1. Configure an SNS Topic to receive email notifications for the alarm
 You will receive a confirmation email. Do not forget to click the link!
 1. If you need to create a new topic, hit the **Create topic** button
 1. Click on **Next**
@@ -49,7 +49,7 @@ You will receive a confirmation email. Do not forget to click the link!
 
 You can now:
 
-- introduce latency into your pipeline. You could for instance let the **hasBadEmojis** function sleep for 500ms:
+- introduce latency into your pipeline. For instance, you could let the **hasBadEmojis** function sleep for 500ms:
     ```javascript
     exports.handler = async ({ content }) => {
         const badEmojis = ['🖕', '💩'];
@@ -71,7 +71,7 @@ You can now:
     }
     ```
 - create a comment
-- see if the alarm goes off
+- see, if the alarm goes off
 
 ## Notifications
 
