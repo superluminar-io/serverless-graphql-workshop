@@ -102,6 +102,6 @@ Now we need to make some queries, in order get log output. After that, we hopefu
 Cloudwatch Logs Insights has some neat examples for querying interesting data about your API and resolvers:
 
 1. Goto [CloudWatch Logs Insights console](https://eu-central-1.console.aws.amazon.com/cloudwatch/home?region=eu-central-1#logsV2:logs-insights).
-1. Click on **Queries** on the left side.
+1. Click on **Queries** on the right side.
 1. Open the **AWS AppSync** sample queries and execute them. 
 ![Querry Logs](./_media/lab3/insights_1.png)
