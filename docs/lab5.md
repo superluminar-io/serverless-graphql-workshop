@@ -15,7 +15,7 @@
 5. In the list of resolvers, scroll down to `comments: [Comment!]!` and click on **comments**
 6. Scroll down and toggle **Enable caching**
 7. Use **60** for **Cache time to live (TTL)**
-8. Scroll up and click on **Create cache**
+8. Scroll up and click on **Save Resolver**
 
 Perfect, we enabled caching for the API and configured the comments resolver to use the cache. We can now play around and understand how it behaves.
 
