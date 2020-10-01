@@ -145,7 +145,7 @@ We are going to write a simple Lambda function to validate the comment.
         return { hasBadEmojis }
     };
     ```
-6. Scroll up and click on **Save**
+6. Scroll up and click on **Deploy**
 7. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 8. Click on **Data Sources**
 9. Click on **Create data sources**
