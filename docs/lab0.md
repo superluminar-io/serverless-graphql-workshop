@@ -6,7 +6,7 @@
 * Create the GraphQL API with AppSync
 * Connect the DynamoDB databases with the GraphQL layer
 
-## DyanmoDB Setup
+## DynamoDB Setup
 
 For our example project, we need to create two DynamoDB databases to store the entities **Article** and **Comment**. 
 
