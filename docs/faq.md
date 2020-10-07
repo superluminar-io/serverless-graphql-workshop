@@ -46,9 +46,9 @@ Despite writing unit tests for the request and response mapping templates (see [
 
 AWS AppSync provides many ways to secure a GraphQL API. See [this article](https://docs.aws.amazon.com/appsync/latest/devguide/security.html).
 
-### How can I automate cache flushing?
+### Can I use caching for the API?
 
-In our example, we showcased the AppSync cache and how easy it is to set it up. However, for a production-ready API, we need to think about strategies to flush the cache automatically. One pragmatic solution would be to live with the TTL. If time matters and the API always has to return the latest set of data, then you need to flush the cache after executing a mutation. Flushing the cache could be an AppSync function you would just add to the AppSync pipeline of the mutation. Another, more asynchronous approach, would be a [DynamoDB stream](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html).
+Yes, AppSync comes with a built-in solution. We wrote an in-depth [guide](/caching) to setup caching.
 
 ### I heard about Amplify. Is it the same?
 
