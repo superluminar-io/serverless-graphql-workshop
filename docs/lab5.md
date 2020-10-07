@@ -1,66 +1,74 @@
-# Lab 5 - Caching
+# Lab 5 - Pagination
 
 ## In this lab …
 
-* Enable caching for AppSync
-* Cache a single resolver
-* Use and flush the cache
+* Extends comments field to handle arguments
+* Extend DynamoDB request to handle pagination
 
-## Setup
+## Implementation
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
-2. In the sidebar, click on **Caching**
-3. Select **Per-resolver caching**, scroll down and click on **Create cache**
-4. In the sidebar, click on **Schema**
-5. In the list of resolvers, scroll down to `comments: [Comment!]!` and click on **comments**
-6. Scroll down and toggle **Enable caching**
-7. Use **60** for **Cache time to live (TTL)**
-8. Scroll up and click on **Save Resolver**
+2. In the sidebar, click on **Schema**
+3. Introduce the new type `CommentConnection` and extend the `Article` type to support the `limit` and `nextToken` arguments for comments:
+    ```graphql
+    type Article {
+      id: ID!
+      createdAt: AWSDateTime!
+      title: String!
+      content: String!
+      comments(limit: Int, nextToken: String): CommentConnection!
+    }
 
-Perfect, we enabled caching for the API and configured the comments resolver to use the cache. We can now play around and understand how it behaves.
-
-## Understand
-
-1. In the sidebar, go to **Queries**
-2. Run the following query:
+    type CommentConnection {
+      nodes: [Comment!]!
+      nextToken: String
+    }
+    ``` 
+4. Click on **Save schema**
+5. Find **comments(...): CommentConnection!** in the list of resolvers and click on **comments**
+6. Replace the request mapping template:
+    ```velocity
+    {
+        "version" : "2017-02-28",
+        "operation" : "Query",
+        "query": {
+            "expression": "articleId = :articleId",
+            "expressionValues" : {
+                ":articleId" : $util.dynamodb.toDynamoDBJson($ctx.source.id)
+            }
+        },
+        "limit": $util.defaultIfNull(${ctx.args.limit}, 20),
+        "nextToken": $util.toJson($util.defaultIfNullOrBlank($ctx.args.nextToken, null))
+    }
+    ```
+7. And the response mapping template:
+    ```velocity
+    {
+        "nodes": $util.toJson($ctx.result.items),
+        "nextToken": $util.toJson($util.defaultIfNullOrBlank($context.result.nextToken, null))
+    }
+    ```
+8. Click on **Save resolver**
+9. Go to the **Queries** tool and run this query:
     ```graphql
     query {
       article(id: "<< YOUR ARTICLE ID >>") {
         id
         title
-        comments {
-          id
-          createdAt
-          content
+        comments(limit: 2) {
+          nodes {
+            id
+            createdAt
+            content
+          }
+          nextToken
         }
       }
     }
     ```
-3. We should see a list of comments, let's create a new comment for this article:
-    ```graphql
-    mutation {
-      createComment(articleId: "<< YOUR ARTICLE ID >>", content: "Is it cached?") {
-        id
-      }
-    }
-    ```
-4. Run the query again:
-    ```graphql
-    query {
-      article(id: "<< YOUR ARTICLE ID >>") {
-        id
-        title
-        comments {
-          id
-          createdAt
-          content
-        }
-      }
-    }
-    ```
-5. Do you see the new comment? Probably not because the request is cached. We can now flush the cache to immediately see the new comment. For that, click on **Caching** and then on **Flush cache**. Go back to **Queries** and run the query again. Do you see the comment now?
+
+If you have more than two comments, then you should get back a `nextToken` as part of the response. You can use the `nextToken` to query the next chunk of comments. This is the easiest solution we can implement to support pagination.
 
 ## Questions
 
-* Is caching something I need to consider from the beginning?
-* What are strategies to flush the cache in a real world example?
+* Is it recommended to implement pagination from the beginning?
