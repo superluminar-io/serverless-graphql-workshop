@@ -1,4 +1,4 @@
-# Lab 4 - Tracing
+# Tracing
 
 ## In this lab …
 

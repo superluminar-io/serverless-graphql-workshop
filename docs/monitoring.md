@@ -1,4 +1,4 @@
-# Lab 3 - Monitoring / Logging
+# Monitoring / Logging
 
 ## In this lab …
 

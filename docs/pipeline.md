@@ -1,4 +1,4 @@
-# Lab 2 - Pipeline
+# Pipeline
 
 ## In this lab …
 

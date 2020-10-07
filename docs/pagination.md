@@ -1,4 +1,4 @@
-# Lab 5 - Pagination
+# Pagination
 
 ## In this lab …
 

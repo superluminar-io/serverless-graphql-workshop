@@ -1,4 +1,4 @@
-# Lab 0 - Setup
+# Setup
 
 ## In this lab …
 

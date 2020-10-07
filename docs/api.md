@@ -1,4 +1,4 @@
-# Lab 1 - GraphQL API
+# GraphQL API
 
 ## In this lab …
 
