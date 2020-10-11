@@ -1,7 +1,7 @@
 import * as cdk from '@aws-cdk/core';
-import * as dynamodb from '@aws-cdk/aws-dynamodb';
-import * as appSync from '@aws-cdk/aws-appsync';
 import {ManagedPolicy, Role, ServicePrincipal} from '@aws-cdk/aws-iam';
+import {DynamoDbDataSource, GraphqlApi, MappingTemplate, Resolver, Schema} from "@aws-cdk/aws-appsync";
+import {AttributeType, BillingMode, Table} from "@aws-cdk/aws-dynamodb";
 
 enum GraphQLType { QUERY = 'Query', MUTATION = 'Mutation' }
 
@@ -15,9 +15,9 @@ export class InfrastructureStack1 extends cdk.Stack {
 
     /////////// DATABASE TABLES & ROLES ///////////
 
-    const articleTable = new dynamodb.Table(this, articleName, {
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      partitionKey: {name: 'id', type: dynamodb.AttributeType.STRING},
+    const articleTable = new Table(this, articleName, {
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      partitionKey: {name: 'id', type: AttributeType.STRING},
       removalPolicy: cdk.RemovalPolicy.DESTROY // Note: Only for testing purposes!
     });
 
@@ -26,10 +26,10 @@ export class InfrastructureStack1 extends cdk.Stack {
     });
     articlesTableRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'));
 
-    const commentTable = new dynamodb.Table(this, commentName, {
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      partitionKey: {name: 'articleId', type: dynamodb.AttributeType.STRING},
-      sortKey: {name: 'createdAt', type: dynamodb.AttributeType.STRING},
+    const commentTable = new Table(this, commentName, {
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      partitionKey: {name: 'articleId', type: AttributeType.STRING},
+      sortKey: {name: 'createdAt', type: AttributeType.STRING},
       removalPolicy: cdk.RemovalPolicy.DESTROY // Note: Only for testing purposes!
     });
 
@@ -41,87 +41,33 @@ export class InfrastructureStack1 extends cdk.Stack {
 
     /////////// GRAPHQL API ///////////
 
-    const blogsGraphQLApi = new appSync.CfnGraphQLApi(this, 'BlogApi', {
+    const blogsGraphQLApi = new GraphqlApi(this, 'BlogApi', {
       name: 'blog-api-1',
-      authenticationType: appSync.AuthorizationType.API_KEY
-    });
-
-    new appSync.CfnApiKey(this, 'BlogApiKey', {
-      apiId: blogsGraphQLApi.attrApiId
-    });
-
-
-    /////////// GRAPHQL API SCHEMA ///////////
-
-    const apiSchema = new appSync.CfnGraphQLSchema(this, 'BlogSchema', {
-      apiId: blogsGraphQLApi.attrApiId,
-      definition: `
-        type ${articleName} {
-          id: ID!
-          createdAt: AWSDateTime!
-          title: String!
-          content: String!
-          comments: [${commentName}!]!
-        }
-        
-        type ${commentName} {
-          id: ID!
-          createdAt: String!
-          content: String!
-        }
-        
-        type Mutation {
-          createArticle(title: String!, content: String!): ${articleName}!
-          createComment(articleId: ID!, content: String!): ${commentName}!
-        }
-        
-        type Query {
-          article(id: ID!): ${articleName}
-        }
-        
-        schema {
-          query: Query,
-          mutation: Mutation
-        }
-      `
+      schema: new Schema({ filePath: 'lib/schema_stack1.graphql' })
     });
 
 
     /////////// GRAPHQL DATA SOURCES ///////////
 
-    const articleDataSource = new appSync.CfnDataSource(this, 'articleDataSource', {
-      apiId: blogsGraphQLApi.attrApiId,
-      name: `${articleName}DataSource`,
-      type: 'AMAZON_DYNAMODB',
-      dynamoDbConfig: {
-        tableName: articleTable.tableName,
-        awsRegion: this.region,
-      },
-      serviceRoleArn: articlesTableRole.roleArn,
+    const articleDataSource = new DynamoDbDataSource(this, 'articleDataSource', {
+      api: blogsGraphQLApi,
+      table: articleTable
     });
-    articleDataSource.addDependsOn(apiSchema);
 
-    const commentsDataSource = new appSync.CfnDataSource(this, 'commentsDataSource', {
-      apiId: blogsGraphQLApi.attrApiId,
-      name: `${commentName}DataSource`,
-      type: 'AMAZON_DYNAMODB',
-      dynamoDbConfig: {
-        tableName: commentTable.tableName,
-        awsRegion: this.region,
-      },
-      serviceRoleArn: commentsTableRole.roleArn,
+    const commentsDataSource = new DynamoDbDataSource(this, 'commentsDataSource', {
+      api: blogsGraphQLApi,
+      table: commentTable
     });
-    commentsDataSource.addDependsOn(apiSchema);
 
 
     /////////// GRAPHQL RESOLVERS ///////////
 
-    const storeArticlesResolver = new appSync.CfnResolver(this, 'storeArticlesResolver', {
-      apiId: blogsGraphQLApi.attrApiId,
-      typeName: GraphQLType.MUTATION,
+    new Resolver(this, 'storeArticlesResolver', {
+      api: blogsGraphQLApi,
+      dataSource: articleDataSource,
       fieldName: 'createArticle',
-      dataSourceName: articleDataSource.name,
-      requestMappingTemplate: `{
+      typeName: GraphQLType.MUTATION,
+      requestMappingTemplate: MappingTemplate.fromString(`{
         "version": "2017-02-28",
         "operation": "PutItem",
         "key": {
@@ -129,33 +75,31 @@ export class InfrastructureStack1 extends cdk.Stack {
           "createdAt": $util.dynamodb.toDynamoDBJson($util.time.nowISO8601())
         },
         "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args)
-      }`,
-      responseMappingTemplate: `$util.toJson($ctx.result)`
+      }`),
+      responseMappingTemplate: MappingTemplate.fromString(`$util.toJson($ctx.result)`)
     });
-    storeArticlesResolver.addDependsOn(articleDataSource);
 
-    const queryArticlesResolver = new appSync.CfnResolver(this, 'queryArticlesResolver', {
-      apiId: blogsGraphQLApi.attrApiId,
-      typeName: GraphQLType.QUERY,
+    new Resolver(this, 'queryArticlesResolver', {
+      api: blogsGraphQLApi,
+      dataSource: articleDataSource,
       fieldName: 'article',
-      dataSourceName: articleDataSource.name,
-      requestMappingTemplate: `{
+      typeName: GraphQLType.QUERY,
+      requestMappingTemplate: MappingTemplate.fromString(`{
         "version": "2017-02-28",
         "operation": "GetItem",
         "key": {
           "id": $util.dynamodb.toDynamoDBJson($ctx.args.id),
         }
-      }`,
-      responseMappingTemplate: `$util.toJson($ctx.result)`
+      }`),
+      responseMappingTemplate: MappingTemplate.fromString(`$util.toJson($ctx.result)`)
     });
-    queryArticlesResolver.addDependsOn(articleDataSource);
 
-    const createCommentsResolver = new appSync.CfnResolver(this, 'createCommentsResolver', {
-      apiId: blogsGraphQLApi.attrApiId,
-      typeName: GraphQLType.MUTATION,
+    new Resolver(this, 'createCommentsResolver', {
+      api: blogsGraphQLApi,
+      dataSource: commentsDataSource,
       fieldName: 'createComment',
-      dataSourceName: commentsDataSource.name,
-      requestMappingTemplate: `{
+      typeName: GraphQLType.MUTATION,
+      requestMappingTemplate: MappingTemplate.fromString(`{
         "version" : "2017-02-28",
         "operation" : "PutItem",
         "key" : {
@@ -166,17 +110,16 @@ export class InfrastructureStack1 extends cdk.Stack {
           "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
           "content": $util.dynamodb.toDynamoDBJson($ctx.args.content)
         }
-      }`,
-      responseMappingTemplate: `$util.toJson($ctx.result)`,
+      }`),
+      responseMappingTemplate: MappingTemplate.fromString(`$util.toJson($ctx.result)`)
     });
-    createCommentsResolver.addDependsOn(commentsDataSource);
 
-    const queryCommentsResolver = new appSync.CfnResolver(this, 'queryCommentsResolver', {
-      apiId: blogsGraphQLApi.attrApiId,
-      typeName: articleName,
+    new Resolver(this, 'queryCommentsResolver', {
+      api: blogsGraphQLApi,
+      dataSource: commentsDataSource,
       fieldName: 'comments',
-      dataSourceName: commentsDataSource.name,
-      requestMappingTemplate: `{
+      typeName: articleName,
+      requestMappingTemplate: MappingTemplate.fromString(`{
         "version" : "2017-02-28",
         "operation" : "Query",
         "query": {
@@ -185,9 +128,8 @@ export class InfrastructureStack1 extends cdk.Stack {
             ":articleId" : $util.dynamodb.toDynamoDBJson($ctx.source.id)
           }
         }
-      }`,
-      responseMappingTemplate: `$utils.toJson($context.result.items)`,
+      }`),
+      responseMappingTemplate: MappingTemplate.fromString(`$utils.toJson($context.result.items)`)
     });
-    queryCommentsResolver.addDependsOn(commentsDataSource);
   }
 }
