@@ -9,7 +9,9 @@
 
 ## Architecture
 
-*tbd*
+So far, we used API keys to access the API. In this lab, we would like to introduce Cognito for identity management and use it as the authentication layer for the API. Cognito lets us manage users and groups, so we can even use groups for some basic authorization. In our case, we want to give all users access to the API, but only users in the bloggers group can create new articles. 
+
+![architecture](_media/auth/architecture.png)
 
 ## Setup
 
