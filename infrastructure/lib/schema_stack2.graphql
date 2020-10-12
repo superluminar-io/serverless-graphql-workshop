@@ -1,0 +1,27 @@
+type Article {
+    id: ID!
+    createdAt: AWSDateTime!
+    title: String!
+    content: String!
+    comments: [Comment!]!
+}
+
+type Comment {
+    id: ID!
+    createdAt: String!
+    content: String!
+}
+
+type Mutation {
+    createArticle(title: String!, content: String!): Article!
+    createComment(articleId: ID!, content: String!): Comment!
+}
+
+type Query {
+    article(id: ID!): Article
+}
+
+schema {
+    query: Query,
+    mutation: Mutation
+}
