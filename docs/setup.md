@@ -36,7 +36,7 @@ That's it, we just created our GraphQL API. Before we can write our schema, we n
 In order to use the DynamoDB databases as resources in the GraphQL API, we need to connect them in AppSync. Therefore we register the databases as data sources.
 
 1. On the left side, you should see a sidebar. Click on **Data Sources**.
-    ![AWS AppSync Console Data Sources](/_media/lab0/data-sources.png)
+    ![AWS AppSync Console Data Sources](/_media/setup/data-sources.png)
 2. Click on **Create data sources**
 3. For **Data source name** use **articles**
 4. Select **Amazon DynamoDB table** as the source type

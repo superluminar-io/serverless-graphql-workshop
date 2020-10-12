@@ -33,19 +33,19 @@ Now we are going to create an alarm. It should be triggered if the latency of ou
 1. Select the **Latency** metric
 1. Click on the **Graphed metrics** tab
 1. Find the little bell icon 🔔 on right side and click it to create an alarm for this metric
-![Create an Alarm](./_media/lab3/alarm_1.png)
+![Create an Alarm](./_media/monitoring/alarm_1.png)
 1. Use the **Average** statistic and set the **Period** to 5 minutes
 1. Configure your alarm to get triggered when the latency is above 500ms
 1. Click on **Next**
-![Create an Alarm](./_media/lab3/alarm_2.png)
-![Create an Alarm](./_media/lab3/alarm_3.png) 
+![Create an Alarm](./_media/monitoring/alarm_2.png)
+![Create an Alarm](./_media/monitoring/alarm_3.png) 
 1. Configure an SNS Topic to receive email notifications for the alarm
 You will receive a confirmation email. Do not forget to click the link!
 1. If you need to create a new topic, hit the **Create topic** button
 1. Click on **Next**
-![Create an Alarm](./_media/lab3/alarm_4.png)
+![Create an Alarm](./_media/monitoring/alarm_4.png)
 1. Name the alarm and click on **Create alarm**
-![Create an Alarm](./_media/lab3/alarm_5.png)
+![Create an Alarm](./_media/monitoring/alarm_5.png)
 
 You can now:
 
@@ -93,7 +93,7 @@ Logging for your API is disable by default. To enable it, do the following:
 1. Enable **Include verbose content** to activate [Request Level Logs](https://docs.aws.amazon.com/appsync/latest/devguide/monitoring.html#cwl).
 1. Set the **Field resolver log level** to **All**.
 1. **Save** your changes.
-![Activate Logging](./_media/lab3/logging_1.png)
+![Activate Logging](./_media/monitoring/logging_1.png)
 
 Now we need to make some queries, in order get log output. After that, we hopefully find some logs in CloudWatch Logs.
 
@@ -104,4 +104,4 @@ Cloudwatch Logs Insights has some neat examples for querying interesting data ab
 1. Goto [CloudWatch Logs Insights console](https://eu-central-1.console.aws.amazon.com/cloudwatch/home?region=eu-central-1#logsV2:logs-insights).
 1. Click on **Queries** on the right side.
 1. Open the **AWS AppSync** sample queries and execute them. 
-![Querry Logs](./_media/lab3/insights_1.png)
+![Querry Logs](./_media/monitoring/insights_1.png)
