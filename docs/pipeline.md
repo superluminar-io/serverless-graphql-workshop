@@ -1,4 +1,4 @@
-# Lab 2 - Pipeline
+# Pipeline
 
 ## In this lab …
 
@@ -14,7 +14,7 @@ The `createComment` mutation should become smarter and validate the input. There
 2. Check if the content includes bad emojis
 3. Store the comment
 
-![Pipeline Architecture](/_media/lab2/architecture.png)
+![Pipeline Architecture](/_media/pipeline/architecture.png)
 
 The interesting part here is how we can wire up different data sources: The pipeline uses a functionless approach for trivial operations (such as storing a comment) and combines it with a Lambda function for more complex operations. That way we can keep the resources we need to maintain to a minimum while not losing the capability of a programing language. 
 
@@ -58,7 +58,7 @@ In the next step, we are going to introduce a pipeline for the `createComment` m
 4. Click on **Delete resolver**
 5. Again, In the list of resolvers, scroll down to `createComment(...): Comment!`. Click on **Attach**
 6. In the **Resolver for Mutation.createComment** section, click on **Convert to pipeline resolver**:
-  ![AWS AppSync Convert To Pipeline](/_media/lab2/convert.png)
+  ![AWS AppSync Convert To Pipeline](/_media/pipeline/convert.png)
 7. Now, in the **Functions** section, click on **Add function** and select **storeComment**
 8. Open **Before mapping template** and replace it with:
     ```velocity

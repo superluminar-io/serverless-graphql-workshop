@@ -1,4 +1,4 @@
-# Lab 1 - GraphQL API
+# GraphQL API
 
 ## In this lab …
 
@@ -12,7 +12,7 @@ The first mutation we are going to introduce gives us the ability to create new 
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
 2. In the sidebar, click on **Schema**. You should see this screen:
-    ![AWS AppSync Console Schema](/_media/lab1/schema.png)
+    ![AWS AppSync Console Schema](/_media/api/schema.png)
 3. Replace the schema with the following schema:
     ```graphql
     type Article {
@@ -37,7 +37,7 @@ The first mutation we are going to introduce gives us the ability to create new 
     ```
 4. Click on **Save schema**
 5. On the right side, you should see all the types and fields we just defined in the schema. Scroll down a bit and find the `createArticle` mutation. Click on the **Atach** button next to the mutation:
-    ![AWS AppSync Console Attach Resolver](/_media/lab1/attach.png)
+    ![AWS AppSync Console Attach Resolver](/_media/api/attach.png)
 6. Select **articles** as the Data source name
 7. Replace the request mapping template:
     ```velocity
@@ -72,9 +72,9 @@ Cool, we created the first mutation in the API and connected it with the DynamoD
     }
     ```
 3. Click on the play button above the textarea. AppSync executes the GraphQL request and prints out the answer of the server on the right side. You should see something like this:
-  ![AWS AppSync Console Queries Mutation Response](/_media/lab1/mutation-response.png)
+  ![AWS AppSync Console Queries Mutation Response](/_media/api/mutation-response.png)
 4. The first article got stored in the DynamoDB table. We can now go to [DynamoDB console](https://console.aws.amazon.com/dynamodb) and check the new entity. Ideally you see this:
-  ![AWS DynamoDB Articles Table](/_media/lab1/dynamodb-article.png)
+  ![AWS DynamoDB Articles Table](/_media/api/dynamodb-article.png)
 
 That's already pretty cool, but so far we can't retrieve articles in our API. Let's change this!
 

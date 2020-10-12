@@ -1,4 +1,4 @@
-# Lab 4 - Tracing
+# Tracing
 
 ## In this lab …
 
@@ -22,7 +22,7 @@ Tracing via X-Ray is not enable by default. So let's do this real quick:
 1. Go to the setting in menu on the left
 1. Scroll down until you find the setting to **Enable X-Ray**
 1. Click on **Save**
-![Activate Tracing](./_media/lab4/xray_1.png)
+![Activate Tracing](./_media/tracing/xray_1.png)
 
 Now we need to generate some traces. So use the different actions of the API. 
 Make sure to not only query data but also create some articles and comments.
@@ -37,7 +37,7 @@ Now, that we generated some traces by calling our API, we can take a look at X-R
     - two DynamoDB tables
     - the Lambda function
 1. Click on the different services and take a look at the **Service details**
-![X-Ray Overview](./_media/lab4/xray_2.png)
+![X-Ray Overview](./_media/tracing/xray_2.png)
 
 Let's take a closer look at a single trace: 
 
@@ -45,7 +45,7 @@ Let's take a closer look at a single trace:
 1. Pick a trace and click on it's **ID**
 1. In the upper part you can see the involved services in the service map again
 1. In the lower part we find a time chart with all the segments of the trace, and their duration contributing to the overall latency of the request
-![Trace Details](./_media/lab4/xray_3.png)
+![Trace Details](./_media/tracing/xray_3.png)
 
 ## Cloudwatch ServiceLens
 
@@ -55,4 +55,4 @@ It combines data from X-Ray, Cloudwatch Metrics and Cloudwatch Logs in one UI.
 1. Open the [ServiceLens console](https://console.aws.amazon.com/cloudwatch/home?region=eu-central-1#servicelens:)
 1. Find your **Service Map** and the **Traces**
 1. Try to find the traces we looked at earlier and compare the different presentations  
-![CW ServiceLense Overview](./_media/lab4/xray_4.png)
+![CW ServiceLense Overview](./_media/tracing/xray_4.png)
