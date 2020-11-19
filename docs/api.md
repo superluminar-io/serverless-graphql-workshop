@@ -36,7 +36,7 @@ The first mutation we are going to introduce gives us the ability to create new 
     }
     ```
 4. Click on **Save schema**
-5. On the right side, you should see all the types and fields we just defined in the schema. Scroll down a bit and find the `createArticle` mutation. Click on the **Atach** button next to the mutation:
+5. On the right side, you should see all the types and fields we just defined in the schema. Scroll down a bit and find the `createArticle` mutation. Click on the **Attach** button next to the mutation:
     ![AWS AppSync Console Attach Resolver](/_media/api/attach.png)
 6. Select **articles** as the Data source name
 7. Replace the request mapping template:
