@@ -16,9 +16,10 @@ For our example project, we need to create two DynamoDB databases to store the e
 4. For **Partition key** use **id**
 5. Keep everything else untouched and click on **Create**
 6. Click again on the **Create table** button
-7. Now, we use **comments** for the table name and **articleId** for the partition key
-8. Tick the **Add sort key** checkbox and put **createdAt** in the input field
-9. Again, keep everything else untouched and click on **Create**
+7. Now, create another table named **comments**
+8. Choose **articleId** for the partition key
+9. Tick the **Add sort key** checkbox and put **createdAt** in the input field
+10. Again, keep everything else untouched and click on **Create table**
 
 Perfect, we created the tables and can continue to create the GraphQL API with AppSync.
 
