@@ -81,10 +81,11 @@ That's already pretty cool, but so far we can't retrieve articles in our API. Le
 ## Query to retrieve articles
 
 1. Go back to the [AppSync console](console.aws.amazon.com/appsync), select the API and click on **Schema**
-2. Replace the `Query` type by the following type:
+2. Replace the `Query` type with the following two types:
   ```graphql
   type Query {
 	  article(id: ID!): Article
+      articles: [Article]
   }
   ```
 3. Click on **Save schema**
@@ -105,6 +106,19 @@ That's already pretty cool, but so far we can't retrieve articles in our API. Le
     $util.toJson($ctx.result)
     ```
 8. Click on **Save resolver**
+9. Do the same for the `articles: [Article]` query, but use the following request and response mapping templates:
+9.  Request:
+    ```velocity
+    {
+        "version" : "2017-02-28",
+        "operation" : "Scan",
+    }
+    ```
+9.  Response:
+    ```velocity
+    $util.toJson($ctx.result.items)
+    ```
+9. Click on **Save resolver**
 9. In the sidebar, click on **Queries**
 10. Find out the ID of the article we just created (e.g. in the [DynamoDB console](https://console.aws.amazon.com/dynamodb)). After that, run the following query:
     ```graphql
