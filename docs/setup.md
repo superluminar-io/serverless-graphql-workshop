@@ -14,6 +14,7 @@ For our example project, we need to create two DynamoDB databases to store the e
 2. Click on **Create table**
 3. For **Table name** use **articles**
 4. For **Partition key** use **id**
+4. Tick the **Add sort key** checkbox and put **createdAt** in the input field
 5. Keep everything else untouched and click on **Create**
 6. Click again on the **Create table** button
 7. Now, create another table named **comments**
