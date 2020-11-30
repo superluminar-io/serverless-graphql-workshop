@@ -56,3 +56,28 @@ We now connected the **articles** database with the GraphQL API. We have to do t
 6. Keep everything else untouched and click on **Create**
 
 Everything is prepared to write the first bit of the GraphQL API.
+
+## Schema
+
+Create a first simple schema:
+
+1. Go back to the [AppSync console](console.aws.amazon.com/appsync) and select the API
+2. In the sidebar, click on **Schema**. You should see this screen:
+    ![AWS AppSync Console Schema](/_media/api/schema.png)
+3. Replace the schema with the following schema:
+    ```graphql
+    type Query {
+        hello: String
+    }
+
+    schema {
+        query: Query
+    }
+    ```
+4. Click on **Save schema**
+
+## Exercise
+
+- Connect with the GraphQL Web Client
+- execute the hello query
+- you succeeded, when you do not get an error

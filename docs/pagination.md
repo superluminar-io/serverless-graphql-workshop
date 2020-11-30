@@ -49,26 +49,14 @@
     }
     ```
 8. Click on **Save resolver**
-9. Go to the **Queries** tool and run this query:
-    ```graphql
-    query {
-      article(id: "<< YOUR ARTICLE ID >>") {
-        id
-        title
-        comments(limit: 2) {
-          nodes {
-            id
-            createdAt
-            content
-          }
-          nextToken
-        }
-      }
-    }
-    ```
 
 If you have more than two comments, then you should get back a `nextToken` as part of the response. You can use the `nextToken` to query the next chunk of comments. This is the easiest solution we can implement to support pagination.
 
-## Questions
+## Exercise
 
+We are now able to provide to arguments with the `comments` field: `limit` and `nextToken`.
+
+* Make a query and limit the comments to return
+* Make use of the `nextToken` to query the next page of comments
+* How does a client determine, that there are no more comments to query?
 * Is it recommended to implement pagination from the beginning?

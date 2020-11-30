@@ -182,22 +182,11 @@ We are going to write a simple Lambda function to validate the comment.
 26. Click on **Move up** so the **hasBadEmojis** card is above the **storeComment** card
 27. Scroll up and click on **Save resolver**
 
-Cool, that's it! Time to play around with the mutation. Go back to the **Queries** explorer and run the following mutations:
 
-```graphql
-mutation {
-  createComment(articleId: "<< YOUR ARTICLE ID >>", content: "So cool!") {
-    id
-  }
-}
-```
+## Exercise
 
-```graphql
-mutation {
-  createComment(articleId: "<< YOUR ARTICLE ID >>", content: "Not cool! 🖕") {
-    id
-  }
-}
-```
+Cool, that's it! Time to play around with the mutation. Go back to your graphql client and do the following:
 
-What do you get from the API?
+- Create a comment with an emoji that will be accepted
+- Create a comment with an emoji that will be rejected
+- Take a look at the HTTP response and status code. What do you notice?

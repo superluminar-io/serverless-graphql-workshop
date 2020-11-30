@@ -222,21 +222,12 @@ This section is very similar to what we have done for the articles. Now we want 
     $utils.toJson($context.result.items)
     ```
 8. Click on **Save resolver**
-9. In the sidebar, click on **Queries**
-10. Run the following query:
-    ```graphql
-    query {
-      article(id: "<< YOUR ARTICLE ID >>") {
-        id
-        title
-        createdAt
-        comments {
-          id
-          createdAt
-          content
-        }
-      }
-    }
-    ```
+
+## Exercise
 
 After this lab, we are able to create and retrieve articles and write comments associated to the articles.
+
+1. Open the graphql client
+1. Create an article and fetch it's `id` and `title` again
+1. Create a comment for this article
+1. Try to make sense of the mapping templates and how they interact with DynamoDB
